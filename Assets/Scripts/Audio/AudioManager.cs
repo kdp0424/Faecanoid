@@ -12,18 +12,16 @@ public class AudioManager : Singleton<AudioManager> {
 	public AudioClip select;
 	public AudioClip confirm;
 	public AudioClip cancel;
-	public AudioClip equip;
 	
 	[Header("General")]
-	public AudioClip hit;
-	public AudioClip kill;
-	public AudioClip beat;
+	public AudioClip victory;
+	public AudioClip pause;
 	
-	[Header("Instra")]
-	public AudioClip comet;
-	public AudioClip crush;
-	public AudioClip dive;
-	public AudioClip counterpoint;
+	[Header("Impacts")]
+	public AudioClip player;
+	public AudioClip wall;
+	public AudioClip brick;
+	//public AudioClip counterpoint;
 	
 	// Use this for initialization
 	void Awake () {

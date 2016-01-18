@@ -3,11 +3,13 @@ using System.Collections;
 
 public class Ball : MonoBehaviour {
     public float speed = 30;
+	Rigidbody2D rigidbody;
 
 	// Use this for initialization
 	void Start () {
         // Initial Velocity
-        GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
+		rigidbody = GetComponent<Rigidbody2D> (); 
+        rigidbody.velocity = Vector2.right * speed;
 	}
 
     float hitFactor(Vector2 ballPos, Vector2 racketPos,
@@ -23,38 +25,31 @@ public class Ball : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col)  {
-        // Note: 'col' holds the collision information. If the 
-        // Ball collided with the racket, then:
-        //  col.gameObject is the racket
-        //  col.transform.postion is the racket's position
-        //  col.collider is the racket's collider
+		
+		//'Bounce' off surface
+		foreach( ContactPoint2D contact in col.contacts ) //Find collision point
+		{
+			//Find the BOUNCE of the object
+			rigidbody.velocity = 2 * ( Vector2.Dot( rigidbody.velocity, contact.normal ) ) * contact.normal - rigidbody.velocity; //Following formula  v' = 2 * (v . n) * n - v
+			
+			rigidbody.velocity *= -1; //Had to multiply everything by -1. Don't know why, but it was all backwards.
+		}
 
         // Hit the Left Racket?
-        if (col.gameObject.name == "RacketLeft")  {
-            // Calculate hit Factor
-            float y = hitFactor(transform.position,
+		if (col.gameObject.name == "RacketLeft" || col.gameObject.name == "RacketRight") {
+			// Calculate hit Factor
+			float y = hitFactor (transform.position,
                                 col.transform.position,
                                 col.collider.bounds.size.y);
-            // Calculate direction, make Length=1 via .normalized
-            Vector2 dir = new Vector2(1, y).normalized;
+			// Calculate direction, make Length=1 via .normalized
+			Vector2 dir = new Vector2 (rigidbody.velocity.normalized.x, y).normalized;
 
-            // Set Velocity with dir * speed
-            GetComponent<Rigidbody2D>().velocity = dir * speed;
-         }
+			// Set Velocity with dir * speed
+			rigidbody.velocity = dir * speed;
 
-        // Hit the right Racket?
-        if (col.gameObject.name == "RacketRight")
-        {
-            // Calculate hit Factor
-            float y = hitFactor(transform.position,
-                                col.transform.position,
-                                col.collider.bounds.size.y);
-
-            // Calculate direction, make length=1 via .normalized
-            Vector2 dir = new Vector2(-1, y).normalized;
-
-            // Set Velocity with dir * speed
-            GetComponent<Rigidbody2D>().velocity = dir * speed;
-        }
+			AudioManager.PlayAudio (AudioManager.instance.player);
+		} else {
+			AudioManager.PlayAudio(AudioManager.instance.wall);
+		}
     }
  }

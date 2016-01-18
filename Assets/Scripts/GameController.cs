@@ -174,15 +174,15 @@ public class GameController : Singleton<GameController> {
 	}
 	
 	public void InputManager() {
-		if(Input.GetButtonUp("Select"))
-		{
-
-		} 
-
-		if (Input.GetButtonUp("Confirm"))
-		{
-
-		}
+//		if(Input.GetButtonUp("Select"))
+//		{
+//
+//		} 
+//
+//		if (Input.GetButtonUp("Confirm"))
+//		{
+//
+//		}
 
 		if(Input.GetKey(KeyCode.LeftControl) && Input.GetButtonUp("DeveloperMode")) {
 			if(DataCore.developerMode == false) { 
@@ -232,6 +232,8 @@ public class GameController : Singleton<GameController> {
 			pausePlayer = true;
 			Pause();		    
 		}	
+
+		AudioManager.PlayAudio (AudioManager.instance.pause);
 	}		
 	
 	public void Pause() {
