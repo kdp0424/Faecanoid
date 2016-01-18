@@ -47,9 +47,11 @@ public class Ball : MonoBehaviour {
 			// Set Velocity with dir * speed
 			rigidbody.velocity = dir * speed;
 
-			AudioManager.PlayAudio (AudioManager.instance.player);
+			AudioManager.PlayAudio (AudioManager.instance.player, 0.5f + Random.value);
 		} else {
-			AudioManager.PlayAudio(AudioManager.instance.wall);
+			AudioManager.PlayAudio(AudioManager.instance.wall, 0.5f + Random.value);
 		}
+
+		speed = speed * 1.01f;
     }
  }

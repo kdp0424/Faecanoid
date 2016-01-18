@@ -30,9 +30,11 @@ public class AudioManager : Singleton<AudioManager> {
 		}
 	}
 	
-	public static void PlayAudio(AudioClip audioClip) {
+	public static void PlayAudio(AudioClip audioClip, float pitch = 1f) {
 		if(audioClip == null) return;
-		instance.audioSources[instance.audioSourceIndex].PlayOneShot(audioClip);
+		AudioSource audioSource = instance.audioSources [instance.audioSourceIndex];
+		audioSource.pitch = pitch;
+		audioSource.PlayOneShot(audioClip);
 		instance.audioSourceIndex++;
 		if(instance.audioSourceIndex == instance.audioSources.Length) instance.audioSourceIndex = 0;
 	}
