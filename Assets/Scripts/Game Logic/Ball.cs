@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class Ball : MonoBehaviour {
-    public float speed = 30;
+    public MinMaxFloat speed = new MinMaxFloat(15f, 100f, 30f);
 	Rigidbody2D rigidbody;
 
 	// Use this for initialization
 	void Start () {
         // Initial Velocity
 		rigidbody = GetComponent<Rigidbody2D> (); 
-        rigidbody.velocity = Vector2.right * speed;
+        rigidbody.velocity = Vector2.right * speed.value;
 	}
 
     float hitFactor(Vector2 ballPos, Vector2 racketPos,
@@ -45,13 +45,17 @@ public class Ball : MonoBehaviour {
 			Vector2 dir = new Vector2 (rigidbody.velocity.normalized.x, y).normalized;
 
 			// Set Velocity with dir * speed
-			rigidbody.velocity = dir * speed;
+			rigidbody.velocity = dir * speed.value;
 
 			AudioManager.PlayAudio (AudioManager.instance.player, 0.5f + Random.value);
 		} else {
 			AudioManager.PlayAudio(AudioManager.instance.wall, 0.5f + Random.value);
 		}
 
-		speed = speed * 1.01f;
+		speed.value = speed.value * 1.01f;
+    }
+    
+    void Reset() {
+    
     }
  }
