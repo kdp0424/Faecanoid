@@ -5,11 +5,22 @@ public class Ball : MonoBehaviour {
     public MinMaxFloat speed = new MinMaxFloat(15f, 100f, 30f);
 	Rigidbody2D rigidbody;
 
+	Vector3 startPos;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         // Initial Velocity
 		rigidbody = GetComponent<Rigidbody2D> (); 
-        rigidbody.velocity = Vector2.right * speed.value;
+        startPos = transform.position;
+
+        GameController.OnModeGameOverExit += Reset;
+        GameController.OnModeAction += Initialize;
+	}
+
+	void Initialize() {
+		bool right = Random.value < 0.5f;
+
+		rigidbody.velocity = (right == true ? Vector2.right : Vector2.left) * speed.value;
 	}
 
     float hitFactor(Vector2 ballPos, Vector2 racketPos,
@@ -56,6 +67,7 @@ public class Ball : MonoBehaviour {
     }
     
     void Reset() {
-    
+    	transform.position = startPos;
+    	rigidbody.velocity = Vector2.zero;
     }
  }

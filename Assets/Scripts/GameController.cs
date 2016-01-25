@@ -59,6 +59,8 @@ public class GameController : Singleton<GameController> {
     public static event EventHandler OnPause;
     public static event EventHandler OnUnPause;
 
+    public MinMaxEventFloat matchTimer = new MinMaxEventFloat(0f, 60f, 60f);
+
     [Space(10)]
 	public bool paused = false;
 	public bool pausePlayer = false; //!< Whether a pause was initiated with the player
@@ -74,7 +76,7 @@ public class GameController : Singleton<GameController> {
 	/// Call any necessary Initialize functions in other classes. The order is important.
 	/// </summary>
 	static void Initialize() {
-
+		
 	}
 	
 	// Use this for initialization
@@ -83,14 +85,28 @@ public class GameController : Singleton<GameController> {
 	}
 	
 	public void BeginGame() {
+		mode = Mode.GameStart;
 
+		matchTimer.OnValueMin += EndGame;
+	}
+
+	public void EndGame() {
+		mode = Mode.GameOver;
+		matchTimer.OnValueMin -= EndGame;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		InputManager();
 	}
-	
+
+	IEnumerator MatchTimerSequence() {
+		while(matchTimer.value > 0f) {
+			matchTimer.value -= Time.deltaTime;
+			yield return null;
+		}
+	}
+
 	/// <summary>
 	/// Sets the Game's mode to a new mode, and calls relevant mode entry and exit events.
 	/// </summary>
@@ -140,7 +156,7 @@ public class GameController : Singleton<GameController> {
 		}		
 	
 	}
-	
+
 	public void EnterModeMainMenu() {
 		StartCoroutine(RestartProcess());
 	}
@@ -151,7 +167,7 @@ public class GameController : Singleton<GameController> {
 	}
 	public void EnterModeGameStart() {
 
-		mode = Mode.Action;
+		//mode = Mode.Action;
 	}
 	
 	public void EnterModeAction() {
@@ -170,7 +186,7 @@ public class GameController : Singleton<GameController> {
 	}
 
 	public void EnterModeGameOver() {
-
+		mode = Mode.MainMenu;
 	}
 	
 	public void InputManager() {
