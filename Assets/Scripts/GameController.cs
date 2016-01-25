@@ -170,6 +170,8 @@ public class GameController : Singleton<GameController> {
 	public void EnterModeGameStart() {
 
 		StartCoroutine(EnterModeActionProcess());
+		matchTimer.SetToMax();
+		AudioManager.PlayAudio(AudioManager.instance.confirm);
 	}
 	
 	public void EnterModeAction() {

@@ -25,7 +25,7 @@ public class UIManager : Singleton<UIManager> {
 		Debug.Log(("UI Manager initialized").Colored(Colors.aqua));
 
 		for(int n = 0; n < Player.players.Length; n++) {
-			Debug.Log("UI Manager is trying to assign to Player number " + n + ".");
+			//Debug.Log("UI Manager is trying to assign to Player number " + n + ".");
 			if(Player.players[n] == null) continue;
 			Player.players[n].score.OnValueChanged += UpdateUI;
 		}
@@ -33,12 +33,16 @@ public class UIManager : Singleton<UIManager> {
 		matchTimerUISequence.sequence = MatchTimerUISequence();
 
 		UpdateUI();
+
+		//Debug.Log("Turned on match timer slider");
 	}
 
 	void Uninitialize() {
 
 
 		matchTimerUISequence.sequence = null;
+
+		//Debug.Log("Turned off match timer slider");
 	}
 
 	void UpdateUI() {
@@ -48,7 +52,7 @@ public class UIManager : Singleton<UIManager> {
 
 	IEnumerator MatchTimerUISequence() {
 
-		while(GameController.mode == GameController.Mode.Action) {
+		while(true) {
 			timeSlider.MatchValues(GameController.instance.matchTimer);
 			yield return null;
 		}

@@ -41,6 +41,14 @@ public class Player : MonoBehaviour {
 			if(players[n] == null || players[n] == this) {
 				continue;
 			} else {
+				players[n].OnBlockDestroyed -= AddScore;
+			}
+		}
+
+		for(int n = 0; n < 4; n++) {
+			if(players[n] == null || players[n] == this) {
+				continue;
+			} else {
 				players[n].OnBlockDestroyed += AddScore;
 			}
 		}
@@ -83,6 +91,7 @@ public class Player : MonoBehaviour {
 		transform.position = startPosition;
 		rigidbody.velocity = Vector2.zero;
 		score.SetToMin();
+		Debug.Log("Player " + playerNumber + " score is: " + score.value);
 	}
 
 

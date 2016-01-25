@@ -2135,6 +2135,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 227f2d8ccbd4543cdbcc8fd7f18a1ac6, type: 2}
+    - target: {fileID: 11479000, guid: 921d46ee5cca0403cb1c2949e53e97dd, type: 2}
+      propertyPath: speed._max
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 921d46ee5cca0403cb1c2949e53e97dd, type: 2}
   m_IsPrefabParent: 0
