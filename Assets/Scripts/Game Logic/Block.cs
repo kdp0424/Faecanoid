@@ -16,7 +16,20 @@ public class Block : MonoBehaviour {
         if(collisionInfo.gameObject.name == "Ball") {
 
 			Player.players[playerOwnerNumber].RaiseBlockDestroyed();
-        	Destroy(gameObject);
+        	//Destroy(gameObject);
+        	Hide();
         }
+    }
+
+    void Show() {
+		gameObject.SetActive(true);
+    }
+
+    void Hide() {
+    	gameObject.SetActive(false);
+    }
+
+    void OnEnable() {
+    	GameController.OnModeGameStart += Show;
     }
 }

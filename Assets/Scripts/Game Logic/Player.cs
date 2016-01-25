@@ -30,11 +30,23 @@ public class Player : MonoBehaviour {
 		rigidbody = GetComponent<Rigidbody2D>();
 
 		GameController.OnModeGameOverExit += Reset;
-        GameController.OnModeAction += Initialize;
+        GameController.OnModeMainMenuExit += Initialize;
+
 	}
 	
 	void Initialize() {
 		controlSequence.sequence = ControlSequence();
+
+		for(int n = 0; n < 4; n++) {
+			if(players[n] == null || players[n] == this) {
+				continue;
+			} else {
+				players[n].OnBlockDestroyed += AddScore;
+			}
+		}
+
+		if(playerNumber > 0) horizontalAxis = "Horizontal" + (playerNumber + 1);
+		if(playerNumber > 0) verticalAxis = "Vertical" + (playerNumber + 1);
 	}
 
 
@@ -42,15 +54,13 @@ public class Player : MonoBehaviour {
 		for(int n = 0; n < 4; n++) {
 			if(players[n] == null) {
 				players[n] = this;
+
+				playerNumber = n;
+
+				Debug.Log("Player number " + n + " has been assigned.");
 				break;
-			} else {
-				players[n].OnBlockDestroyed += AddScore;
-			}
-
+			} 
 		}
-
-		if(playerNumber > 0) horizontalAxis = "Horizontal" + (playerNumber + 1);
-		if(playerNumber > 0) verticalAxis = "Vertical" + (playerNumber + 1);
 	}
 
 	IEnumerator ControlSequence () {

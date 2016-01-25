@@ -61,6 +61,8 @@ public class GameController : Singleton<GameController> {
 
     public MinMaxEventFloat matchTimer = new MinMaxEventFloat(0f, 60f, 60f);
 
+    CoroutineManager.Item matchTimerSequence = new CoroutineManager.Item();
+
     [Space(10)]
 	public bool paused = false;
 	public bool pausePlayer = false; //!< Whether a pause was initiated with the player
@@ -158,7 +160,7 @@ public class GameController : Singleton<GameController> {
 	}
 
 	public void EnterModeMainMenu() {
-		StartCoroutine(RestartProcess());
+		//StartCoroutine(RestartProcess());
 	}
 	public IEnumerator RestartProcess() {
 
@@ -167,11 +169,11 @@ public class GameController : Singleton<GameController> {
 	}
 	public void EnterModeGameStart() {
 
-		//mode = Mode.Action;
+		StartCoroutine(EnterModeActionProcess());
 	}
 	
 	public void EnterModeAction() {
-
+		matchTimerSequence.sequence = MatchTimerSequence();
 	}
 	
 	IEnumerator EnterModeActionProcess() {
@@ -179,10 +181,12 @@ public class GameController : Singleton<GameController> {
 
 		yield return new WaitForSeconds(0.5f);
 
+		mode = Mode.Action;
+
 	}
 	
 	public void ExitModeAction() {
-
+		matchTimerSequence.sequence = null;
 	}
 
 	public void EnterModeGameOver() {

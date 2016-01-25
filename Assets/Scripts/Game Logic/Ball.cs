@@ -69,5 +69,6 @@ public class Ball : MonoBehaviour {
     void Reset() {
     	transform.position = startPos;
     	rigidbody.velocity = Vector2.zero;
+    	speed.value = 30f;
     }
  }

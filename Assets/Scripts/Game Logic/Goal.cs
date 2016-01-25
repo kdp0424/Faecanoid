@@ -5,11 +5,11 @@ public class Goal : MonoBehaviour {
 
 	public int playerOwnerNumber;
 
-	void OnCollisionEnter2D(Collision2D collisionInfo)
+	void OnTriggerEnter2D(Collider2D other)
     {
         // Destroy the whole block
-        
-        if(collisionInfo.gameObject.name == "Ball") {
+
+        if(other.gameObject.name == "Ball") {
         
         	GameController.mode = GameController.Mode.GameOver;
         }

@@ -14,13 +14,36 @@ public class UIManager : Singleton<UIManager> {
 
 	public CanvasGroup menuGroup;
 
+
+	CoroutineManager.Item matchTimerUISequence = new CoroutineManager.Item();
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
-	
-	void UpdateUI() {
 
+	void Initialize() {
+		Debug.Log(("UI Manager initialized").Colored(Colors.aqua));
+
+		for(int n = 0; n < Player.players.Length; n++) {
+			Debug.Log("UI Manager is trying to assign to Player number " + n + ".");
+			if(Player.players[n] == null) continue;
+			Player.players[n].score.OnValueChanged += UpdateUI;
+		}
+
+		matchTimerUISequence.sequence = MatchTimerUISequence();
+
+		UpdateUI();
+	}
+
+	void Uninitialize() {
+
+
+		matchTimerUISequence.sequence = null;
+	}
+
+	void UpdateUI() {
+		player1ScoreText.text = "" + Player.players[0].score.value;
+		player2ScoreText.text = "" + Player.players[1].score.value;
 	}
 
 	IEnumerator MatchTimerUISequence() {
@@ -42,6 +65,9 @@ public class UIManager : Singleton<UIManager> {
 	void OnEnable() {
 		GameController.OnModeMainMenu += ShowMenu;
 		GameController.OnModeMainMenuExit += HideMenu;
+
+		GameController.OnModeGameStart += Initialize;
+		GameController.OnModeGameOver += Uninitialize;
 	}
 
 	void OnDisable() {

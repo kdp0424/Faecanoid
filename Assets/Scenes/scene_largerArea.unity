@@ -1868,7 +1868,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 234, y: 32}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534980692
 MonoBehaviour:
@@ -2170,10 +2170,10 @@ RectTransform:
   - {fileID: 201875083}
   m_Father: {fileID: 758426876}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 218.1275, y: -69.85}
-  m_SizeDelta: {x: 436.255, y: 139.7}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &654002398
 MonoBehaviour:
@@ -2797,7 +2797,7 @@ RectTransform:
   m_Father: {fileID: 1235616468}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.75, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3014,7 +3014,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 125}
-  m_SizeDelta: {x: 686, y: 161}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &817204408
 MonoBehaviour:
@@ -4226,10 +4226,10 @@ RectTransform:
   - {fileID: 1038537805}
   m_Father: {fileID: 758426876}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 656.3825, y: -69.85}
-  m_SizeDelta: {x: 436.255, y: 139.7}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1071684674
 MonoBehaviour:
@@ -4692,7 +4692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1102379490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4709,7 +4709,7 @@ MonoBehaviour:
   timeSlider: {fileID: 1971985127}
   player1ScoreText: {fileID: 1365546347}
   player2ScoreText: {fileID: 1668569987}
-  menuGroup: {fileID: 0}
+  menuGroup: {fileID: 1611997649}
 --- !u!114 &1102379491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6066,7 +6066,7 @@ GameObject:
   - 114: {fileID: 1365546347}
   - 114: {fileID: 1365546346}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: Player 1 Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6087,7 +6087,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -397, y: 474}
-  m_SizeDelta: {x: 56, y: 57}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1365546346
 MonoBehaviour:
@@ -6134,7 +6134,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 40
+  m_Text: 
 --- !u!222 &1365546348
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6675,8 +6675,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 862848955}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.75, y: 0}
-  m_AnchorMax: {x: 0.75, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7505,7 +7505,7 @@ GameObject:
   - 114: {fileID: 1668569987}
   - 114: {fileID: 1668569986}
   m_Layer: 5
-  m_Name: Text (2)
+  m_Name: Player 2 Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7526,7 +7526,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 397, y: 474}
-  m_SizeDelta: {x: 56, y: 57}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668569986
 MonoBehaviour:
@@ -7573,7 +7573,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 40
+  m_Text: 
 --- !u!222 &1668569988
 CanvasRenderer:
   m_ObjectHideFlags: 0
