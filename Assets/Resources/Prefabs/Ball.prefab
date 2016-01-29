@@ -37,7 +37,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &410886
 Transform:
   m_ObjectHideFlags: 1
@@ -104,7 +104,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 227f2d8ccbd4543cdbcc8fd7f18a1ac6, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -155,8 +155,11 @@ MonoBehaviour:
   c:
   - {r: 0.7260878, g: 0.32200003, b: 1, a: 1}
   - {r: 1, g: 0.66349804, b: 0.3215686, a: 1}
-  flickerRate: 4
-  maxFlickerRate: 4
+  flickerRate:
+    _min: 0.1
+    _value: 1
+    _max: 20
+  renderer: {fileID: 0}
   proximityFlicker: 0
   proximityTriggerDistance: 10
   proximityTarget: {fileID: 0}
@@ -173,8 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed:
     _min: 15
-    _value: 30
-    _max: 75
+    _value: 20
+    _max: 40
 --- !u!198 &19809830
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -729,7 +732,7 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 2499764354
+          rgba: 1191141506
         key1:
           serializedVersion: 2
           rgba: 10592767

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIManager : Singleton<UIManager> {
 
@@ -14,6 +15,7 @@ public class UIManager : Singleton<UIManager> {
 
 	public CanvasGroup menuGroup;
 
+	public Button initialButton;
 
 	CoroutineManager.Item matchTimerUISequence = new CoroutineManager.Item();
 	// Use this for initialization
@@ -60,10 +62,12 @@ public class UIManager : Singleton<UIManager> {
 
 	void ShowMenu() {
 		menuGroup.SetInteractive(true, 0.25f);
+		EventSystem.current.SetSelectedGameObject(initialButton.gameObject);
 	}
 
 	void HideMenu() {
 		menuGroup.SetInteractive(false, 0.25f);
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	void OnEnable() {

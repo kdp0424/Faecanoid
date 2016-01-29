@@ -32,4 +32,6 @@ public class Block : MonoBehaviour {
     void OnEnable() {
     	GameController.OnModeGameStart += Show;
     }
+
+
 }
