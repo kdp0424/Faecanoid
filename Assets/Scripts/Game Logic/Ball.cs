@@ -47,7 +47,7 @@ public class Ball : MonoBehaviour {
 		}
 
         // Hit the Left Racket?
-		if (col.gameObject.name == "RacketLeft" || col.gameObject.name == "RacketRight") {
+		if (col.gameObject.name == "PlayerCharacter") {
 			// Calculate hit Factor
 			float y = hitFactor (transform.position,
                                 col.transform.position,
@@ -55,7 +55,8 @@ public class Ball : MonoBehaviour {
 			// Calculate direction, make Length=1 via .normalized
 			Vector2 dir = new Vector2 (rigidbody.velocity.normalized.x, y).normalized;
 
-			// Set Velocity with dir * speed
+            // Set Velocity with dir * speed
+            Debug.Log(dir * speed.value);
 			rigidbody.velocity = dir * speed.value;
 
 			AudioManager.PlayAudio (AudioManager.instance.player, 0.5f + Random.value);
@@ -64,11 +65,13 @@ public class Ball : MonoBehaviour {
 		}
 
 		speed.value = speed.value * 1.01f;
+        ("collided with" + col.gameObject.name).DebugLogJustin();
+        //Debug.Log(rigidbody.velocity.magnitude);
     }
     
     void Reset() {
     	transform.position = startPos;
     	rigidbody.velocity = Vector2.zero;
-    	speed.value = 30f;
+    	speed.value = 20f;
     }
  }

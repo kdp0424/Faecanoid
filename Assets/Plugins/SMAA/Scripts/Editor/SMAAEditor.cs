@@ -22,7 +22,9 @@
  */
 
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using Smaa;
 
 namespace SmaaEditor
@@ -74,8 +76,8 @@ namespace SmaaEditor
 			m_PredicationScale = m_CustomPredicationPreset.FindPropertyRelative("Scale");
 			m_PredicationStrength = m_CustomPredicationPreset.FindPropertyRelative("Strength");
 		}
-
-		public override void OnInspectorGUI()
+#if UNITY_EDITOR
+        public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
 
@@ -136,8 +138,8 @@ namespace SmaaEditor
 
 			serializedObject.ApplyModifiedProperties();
 		}
-
-		bool IsOpenGL()
+#endif
+        bool IsOpenGL()
 		{
 			return SystemInfo.graphicsDeviceVersion.IndexOf("OpenGL") > -1;
 		}

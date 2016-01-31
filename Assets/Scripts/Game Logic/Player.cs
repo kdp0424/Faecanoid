@@ -59,7 +59,7 @@ public class Player : MonoBehaviour {
 
 
 	void AssignPlayerNumber() {
-		for(int n = 0; n < 4; n++) {
+		for(int n = playerNumber; n < 4; n++) {
 			if(players[n] == null) {
 				players[n] = this;
 
