@@ -47,7 +47,7 @@ public class Ball : MonoBehaviour {
 		}
 
         // Hit the Left Racket?
-		if (col.gameObject.name == "PlayerCharacter") {
+		if (col.gameObject.layer == LayerMask.NameToLayer("Player")) {
 			// Calculate hit Factor
 			float y = hitFactor (transform.position,
                                 col.transform.position,
