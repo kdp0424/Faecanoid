@@ -206,6 +206,11 @@ public class GameController : Singleton<GameController> {
 //
 //		}
 
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
 		if(Input.GetKey(KeyCode.LeftControl) && Input.GetButtonUp("DeveloperMode")) {
 			if(DataCore.developerMode == false) { 
 				DataCore.developerMode = true;
