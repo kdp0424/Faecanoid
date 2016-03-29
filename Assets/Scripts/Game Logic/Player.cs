@@ -29,9 +29,8 @@ public class Player : MonoBehaviour {
 
 		rigidbody = GetComponent<Rigidbody2D>();
 
-		GameController.OnModeGameOverExit += Reset;
-        GameController.OnModeMainMenuExit += Initialize;
-
+        GameController.state.values[GameController.State.GameOver].OnExit += Reset;
+        GameController.state.values[GameController.State.MainMenu].OnExit += Initialize;
 	}
 	
 	void Initialize() {

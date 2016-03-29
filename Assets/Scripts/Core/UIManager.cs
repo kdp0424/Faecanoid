@@ -71,11 +71,11 @@ public class UIManager : Singleton<UIManager> {
 	}
 
 	void OnEnable() {
-		GameController.OnModeMainMenu += ShowMenu;
-		GameController.OnModeMainMenuExit += HideMenu;
+        GameController.state.values[GameController.State.MainMenu].OnEnter += ShowMenu;
+        GameController.state.values[GameController.State.MainMenu].OnExit += HideMenu;
 
-		GameController.OnModeGameStart += Initialize;
-		GameController.OnModeGameOver += Uninitialize;
+        GameController.state.values[GameController.State.GameStart].OnEnter += Initialize;
+        GameController.state.values[GameController.State.GameOver].OnExit += Uninitialize;
 	}
 
 	void OnDisable() {

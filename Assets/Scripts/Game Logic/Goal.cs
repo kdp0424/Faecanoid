@@ -11,7 +11,7 @@ public class Goal : MonoBehaviour {
 
         if(other.gameObject.name == "Ball") {
         
-        	GameController.mode = GameController.Mode.GameOver;
+        	GameController.state.value = GameController.State.GameOver;
         }
     }
 

@@ -85,13 +85,13 @@ public class CoroutineManager : Singleton<CoroutineManager>
         }
     }
 
-    //Item that automatically pauses and resumes its sequence when exiting and entering Mode Planemo
-    public class PlanemoItem : Item
+    //Item that automatically pauses and resumes its sequence when exiting and entering State Action
+    public class ActionItem : Item
     {
-        public PlanemoItem() : base()
+        public ActionItem() : base()
         {
-            GameController.OnModeAction += Start;
-            GameController.OnModeActionExit += Stop;
+            GameController.state.values[GameController.State.Action].OnEnter += Start;
+            GameController.state.values[GameController.State.Action].OnExit += Stop;
         }
 
     }

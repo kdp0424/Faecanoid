@@ -15,8 +15,8 @@ public class Ball : MonoBehaviour {
 		rigidbody = GetComponent<Rigidbody2D> (); 
         startPos = transform.position;
 
-        GameController.OnModeGameOverExit += Reset;
-        GameController.OnModeAction += Initialize;
+        GameController.state.values[GameController.State.GameOver].OnExit += Reset;
+        GameController.state.values[GameController.State.Action].OnEnter += Initialize;
 	}
 
 	void Initialize() {
@@ -133,7 +133,7 @@ public class Ball : MonoBehaviour {
     {
         yield return new WaitForSeconds(3f);
 
-        if (GameController.mode != GameController.Mode.Action) yield break;
+        if (GameController.state.value != GameController.State.Action) yield break;
 
         string[] randomPhrases = new string[]
         {

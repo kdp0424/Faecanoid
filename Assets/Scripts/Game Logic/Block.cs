@@ -30,7 +30,7 @@ public class Block : MonoBehaviour {
     }
 
     void OnEnable() {
-    	GameController.OnModeGameStart += Show;
+        GameController.state.values[GameController.State.GameStart].OnEnter += Show;
     }
 
 

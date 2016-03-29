@@ -9,21 +9,9 @@ using UnityEngine.EventSystems;
 /// Manages game state and player input.
 public class GameController : Singleton<GameController> {
 
-	public enum Mode { MainMenu, GameStart, Action, GameOver };
-	private static Mode _mode = Mode.MainMenu;
+	public enum State { MainMenu, GameStart, Action, GameOver };
 
-	public static Mode mode {
-		get {
-			return _mode;
-		}
-		set {
-            if (mode == value) return;
-            SetMode(value);
-			instance.editorVisibleMode = _mode;
-		}
-	}
-
-	public Mode editorVisibleMode;
+    public static StateManager<State> state = StateManager<State>.CreateNew(); 
 
 	public static bool tutorialEnabled = false;
 
@@ -43,18 +31,6 @@ public class GameController : Singleton<GameController> {
     }
 
 	public delegate void EventHandler();
-    public static event EventHandler OnModeGameStart;
-	public static event EventHandler OnModeGameStartExit;
-	
-	public static event EventHandler OnModeMainMenu;
-	public static event EventHandler OnModeMainMenuExit;
-	
-	public static event EventHandler OnModeAction;
-	public static event EventHandler OnModeActionExit;
-	
-	public static event EventHandler OnModeGameOver;
-	public static event EventHandler OnModeGameOverExit;
-
 
     public static event EventHandler OnPause;
     public static event EventHandler OnUnPause;
@@ -77,9 +53,18 @@ public class GameController : Singleton<GameController> {
 	/// <summary>
 	/// Call any necessary Initialize functions in other classes. The order is important.
 	/// </summary>
-	static void Initialize() {
-		
-	}
+	static void Initialize()
+	{
+        state.values[State.MainMenu].OnEnter += instance.EnterModeMainMenu;
+        state.values[State.GameStart].OnEnter += instance.EnterModeGameStart;
+	    state.values[State.Action].OnEnter += instance.EnterModeAction;
+        state.values[State.GameOver].OnEnter += instance.EnterModeGameOver;
+
+        //state.values[State.MainMenu].OnEnter += instance.ExitModeMainMenu;
+        //state.values[State.GameStart].OnEnter += instance.ExitModeGameStart;
+        state.values[State.Action].OnEnter += instance.ExitModeAction;
+        //state.values[State.GameOver].OnEnter += instance.ExitModeGameOver;
+    }
 	
 	// Use this for initialization
 	void Start () {
@@ -87,13 +72,13 @@ public class GameController : Singleton<GameController> {
 	}
 	
 	public void BeginGame() {
-		mode = Mode.GameStart;
+		state.value = State.GameStart;
 
 		matchTimer.OnValueMin += EndGame;
 	}
 
 	public void EndGame() {
-		mode = Mode.GameOver;
+        state.value = State.GameOver;
 		matchTimer.OnValueMin -= EndGame;
 	}
 	
@@ -109,55 +94,6 @@ public class GameController : Singleton<GameController> {
 		}
 	}
 
-	/// <summary>
-	/// Sets the Game's mode to a new mode, and calls relevant mode entry and exit events.
-	/// </summary>
-	/// <param name="newMode">New mode.</param>
-	private static void SetMode(Mode newMode) {
-		if(mode == newMode) return;
-		Debug.Log(("Changing GameController.mode to: " + newMode).Colored(Colors.orange));
-		
-
-        //Run the appropriate mode exit functions
-        switch (mode) {
-			case Mode.MainMenu:
-				if(OnModeMainMenuExit != null) OnModeMainMenuExit();
-				break;
-			case Mode.GameStart:
-				if(OnModeGameStartExit != null) OnModeGameStartExit();
-				break;				
-			case Mode.Action:
-				if(OnModeActionExit != null) OnModeActionExit();
-				instance.ExitModeAction();
-				break;
-			case Mode.GameOver:
-				if(OnModeGameOverExit != null) OnModeGameOverExit();
-				break;								
-		}
-		//Sets the private variable to the new mode
-		_mode = newMode;
-		
-		//Run the appropriate mode enter functions
-		switch(mode) {
-			case Mode.MainMenu:
-				if(OnModeMainMenu != null) OnModeMainMenu();
-				instance.EnterModeMainMenu();
-				break;
-			case Mode.GameStart:
-				if(OnModeGameStart != null) OnModeGameStart();
-				instance.EnterModeGameStart();
-				break;				
-			case Mode.Action:
-				if(OnModeAction != null) OnModeAction();
-				instance.EnterModeAction();
-				break;
-			case Mode.GameOver:
-				if(OnModeGameOver != null) OnModeGameOver();
-				instance.EnterModeGameOver();
-				break;								
-		}		
-	
-	}
 
 	public void EnterModeMainMenu() {
 		//StartCoroutine(RestartProcess());
@@ -165,7 +101,7 @@ public class GameController : Singleton<GameController> {
 	public IEnumerator RestartProcess() {
 
         yield return null;
-		mode = Mode.GameStart;
+        state.value = State.GameStart;
 	}
 	public void EnterModeGameStart() {
 
@@ -183,7 +119,7 @@ public class GameController : Singleton<GameController> {
 
 		yield return new WaitForSeconds(0.5f);
 
-		mode = Mode.Action;
+        state.value = State.Action;
 
 	}
 	
@@ -192,7 +128,7 @@ public class GameController : Singleton<GameController> {
 	}
 
 	public void EnterModeGameOver() {
-		mode = Mode.MainMenu;
+        state.value = State.MainMenu;
 	}
 	
 	public void InputManager() {
