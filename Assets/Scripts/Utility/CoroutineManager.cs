@@ -18,9 +18,11 @@ public class CoroutineManager : Singleton<CoroutineManager>
     //Use this directly if you don't want to add an entry to the dictionary and just want a managed coroutine item.
     public class Item
     {
-        bool isRunning = false;
+        public bool isRunning { get; private set; }
         private MonoBehaviour objectRunningThis = null;
         private IEnumerator _sequence = null;
+
+        public bool autoStart = true;
         //Assign a value to this to automatically stop the previous coroutine and start the next one.
         public IEnumerator sequence
         {
@@ -33,7 +35,7 @@ public class CoroutineManager : Singleton<CoroutineManager>
                 Stop();
                 //if (sequence == null) return;
                 _sequence = RadicalRoutine.Run(value);
-                if(value != null) Start();
+                if(value != null && autoStart) Start();
             }
         }
 
@@ -48,12 +50,19 @@ public class CoroutineManager : Singleton<CoroutineManager>
             objectRunningThis = behavior;
         }
 
+        public Item(IEnumerator newSequence, bool autoStart, MonoBehaviour behavior = null)
+        {
+            this.autoStart = autoStart;
+            _sequence = newSequence;
+            objectRunningThis = behavior;
+        }
+
         public void Start()
         {
             if (isRunning) return;
             
             //Adds RadicalRoutine wrapper to the coroutine so that extended yields such as WaitForUnscaledSeconds may be used.
-            if (_sequence != null)
+            if (_sequence != null && autoStart)
             {
                 if (objectRunningThis != null)
                 {
@@ -63,8 +72,8 @@ public class CoroutineManager : Singleton<CoroutineManager>
                 {
                     CoroutineManager.instance.StartCoroutine(_sequence);
                 }
-            }
-            isRunning = true;
+                isRunning = true;
+            }            
         }
 
         public void Stop()
@@ -83,16 +92,36 @@ public class CoroutineManager : Singleton<CoroutineManager>
             }
             isRunning = false;
         }
-    }
 
-    //Item that automatically pauses and resumes its sequence when exiting and entering State Action
-    public class ActionItem : Item
-    {
-        public ActionItem() : base()
+        public class Collection
         {
-            GameController.state.values[GameController.State.Action].OnEnter += Start;
-            GameController.state.values[GameController.State.Action].OnExit += Stop;
-        }
+            private List<Item> items = new List<Item>();
 
+            public void Add(Item item)
+            {
+                items.Add(item);
+            }
+
+            public void Remove(Item item)
+            {
+                items.Remove(item);
+            }
+
+            public void Start()
+            {
+                for(int n = 0; n < items.Count; n++)
+                {
+                    items[n].Start();
+                }
+            }
+
+            public void Stop()
+            {
+                for (int n = 0; n < items.Count; n++)
+                {
+                    items[n].Stop();
+                }
+            }
+        }
     }
 }

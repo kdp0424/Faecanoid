@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
-[Serializable]
+[System.Serializable]
 public class StateManager<T>
 {
 
     public string displayedStateName = "";
 
-    public Action OnChanged;
+    public System.Action OnChanged;
 
     private Dictionary<object, State> stateLookup;
 
@@ -57,6 +58,7 @@ public class StateManager<T>
             if (_state != null && _state.OnExit != null)
             {
                 _state.OnExit();
+                _state.StopCoroutines();
                 "Calling OnExit for state".DebugLogJustin();
             }
             else
@@ -64,12 +66,10 @@ public class StateManager<T>
                 "OnExit for state is null".DebugLogDom();
             }
 
-            var nextState = value;
-
-            _state = nextState;
+            _state = value;
 
             if (_state.OnEnter != null) _state.OnEnter();
-
+            _state.StartCoroutines();
             if (OnChanged != null) OnChanged();
         }
     }
@@ -104,17 +104,6 @@ public class StateManager<T>
         return new StateManager<T>();
     }
 
-    public void ChangeState(T value)
-    {
-        Debug.Log("Changing state to: " + value);
-        state = stateLookup[value];
-    }
-
-    public State GetState(T value)
-    {
-        return stateLookup[value];
-    }
-
     public class State
     {
         public object state;
@@ -123,10 +112,60 @@ public class StateManager<T>
 
         public Action OnExit;
 
+        public List<CoroutineManager.Item> coroutines = new List<CoroutineManager.Item>();
+
         public State(object state)
         {
             this.state = state;
         }
 
+        public void StartCoroutines()
+        {
+            for (int n = 0; n < coroutines.Count; n++)
+            {
+                coroutines[n].Start();
+            }
+        }
+
+        public void StopCoroutines()
+        {
+            for (int n = 0; n < coroutines.Count; n++)
+            {
+                coroutines[n].Stop();
+            }
+        }
+
+        /// <summary>
+        /// Add the an IENumerator which should run when entering this state. Stops when exiting state.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static State operator +(State s, IEnumerator i)
+        {
+            CoroutineManager.Item item = new CoroutineManager.Item(i, false);
+            s.coroutines.Add(item);
+            return s;
+        }
+        /// <summary>
+        /// Removes an IENumerator which should run when entering this state, and stops it immediately.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static State operator -(State s, IEnumerator i)
+        {
+            for (int n = 0; n < s.coroutines.Count; n++)
+            {
+                CoroutineManager.Item item = s.coroutines[n];
+                if (item.sequence == i)
+                {
+                    item.Stop();
+                    s.coroutines.Remove(item);
+                }
+            }
+
+            return s;
+        }
     }
 }
